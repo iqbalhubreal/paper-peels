@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Paper Peels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1E2D3D;
+    --navy-soft:#2B3E52;
+    --cream:#FDF6E9;
+    --paper:#FAF1E0;
+    --amber:#F0A830;
+    --coral:#E8A0A0;
+    --ink:#1E2D3D;
+    --ink-mute:#5E7186;
+    --line:rgba(30,45,61,.14);
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *,*::before,*::after{box-sizing:inherit}
+  html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--cream);
+    color:var(--ink);
+    font-family:"DM Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:17px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{max-width:100%;display:block}
+  a{color:inherit}
+  .wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* ---------- header ---------- */
+  .masthead{background:var(--navy);color:var(--cream)}
+  .masthead .wrap{display:flex;align-items:center;gap:14px;padding-top:20px;padding-bottom:20px}
+  .mark{width:40px;height:40px;border-radius:12px;object-fit:cover;flex:none}
+  .brand{
+    font-family:"Bricolage Grotesque",sans-serif;
+    font-weight:700;font-size:1.18rem;letter-spacing:-.02em;line-height:1;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{background:var(--navy);color:var(--cream);position:relative;padding-bottom:86px}
+  .hero .wrap{padding-top:8px;padding-bottom:64px;max-width:860px}
+  .hero h1{
+    font-family:"Bricolage Grotesque",sans-serif;
+    font-weight:700;
+    font-size:clamp(2.3rem,6.4vw,4.1rem);
+    line-height:1.02;
+    letter-spacing:-.035em;
+    margin:0 0 20px;
+    max-width:16ch;
+  }
+  .hero p{margin:0;max-width:52ch;color:#B9C8D6;font-size:1.06rem}
+
+  /* search sits across the seam between navy and cream */
+  .seam{
+    position:absolute;left:0;right:0;bottom:-30px;
+  }
+  .search{
+    max-width:560px;margin:0 auto;position:relative;
+    background:var(--cream);
+    border-radius:999px;
+    box-shadow:0 10px 30px rgba(30,45,61,.22);
+  }
+  .search input{
+    width:100%;border:0;background:transparent;
+    font:inherit;color:var(--ink);
+    padding:19px 56px 19px 26px;border-radius:999px;
+  }
+  .search input::placeholder{color:#93A5B5}
+  .search input:focus{outline:2px solid var(--amber);outline-offset:2px}
+  .search svg{
+    position:absolute;right:22px;top:50%;transform:translateY(-50%);
+    width:19px;height:19px;stroke:var(--ink-mute);fill:none;stroke-width:2;
+  }
+
+  /* ---------- grid ---------- */
+  main{padding:96px 0 0}
+  .count{
+    color:var(--ink-mute);font-size:.92rem;margin:0 0 22px;
+  }
+  .grid{
+    display:grid;gap:28px;
+    grid-template-columns:repeat(auto-fill,minmax(230px,1fr));
+    list-style:none;margin:0;padding:0;
+  }
+
+  /* the peel: a card with a real folded corner */
+  .card{
+    position:relative;
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:4px 4px 6px 6px;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .card::before{ /* amber underside revealed by the fold */
+    content:"";position:absolute;top:0;right:0;
+    border-style:solid;border-width:0 44px 44px 0;
+    border-color:transparent var(--amber) transparent transparent;
+    z-index:2;
+  }
+  .card::after{ /* the folded flap of paper */
+    content:"";position:absolute;top:0;right:0;
+    border-style:solid;border-width:44px 44px 0 0;
+    border-color:var(--cream) transparent transparent transparent;
+    filter:drop-shadow(-2px 2px 2px rgba(30,45,61,.18));
+    z-index:3;
+    transition:border-width .28s cubic-bezier(.22,.9,.3,1);
+  }
+  .card:hover::before,.card:focus-within::before{border-width:0 60px 60px 0}
+  .card:hover::after,.card:focus-within::after{border-width:60px 60px 0 0}
+
+  .thumb{
+    aspect-ratio:1/1;
+    background:#F2E7D2;
+    display:flex;align-items:center;justify-content:center;
+    padding:18px;
+  }
+  .thumb img{max-height:100%;width:auto;object-fit:contain}
+  .thumb .ph{
+    width:100%;height:100%;border:1px dashed rgba(30,45,61,.25);
+    border-radius:3px;display:flex;align-items:center;justify-content:center;
+    color:#A99370;font-size:.82rem;
+  }
+  .meta{padding:16px 18px 18px;display:flex;flex-direction:column;gap:12px;flex:1}
+  .title{
+    font-family:"Bricolage Grotesque",sans-serif;
+    font-weight:500;font-size:1.02rem;line-height:1.25;letter-spacing:-.015em;
+    margin:0;
+  }
+  .kind{color:var(--ink-mute);font-size:.82rem;margin:-8px 0 0}
+  .dl{
+    margin-top:auto;
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    background:var(--navy);color:var(--cream);
+    text-decoration:none;font-weight:500;font-size:.94rem;
+    padding:11px 16px;border-radius:3px;
+    transition:background .18s ease;
+  }
+  .dl:hover{background:var(--navy-soft)}
+  .dl:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  .dl svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+
+  .empty{
+    padding:64px 0 24px;color:var(--ink-mute);
+    border-top:1px solid var(--line);
+  }
+
+  /* ---------- footer ---------- */
+  footer{
+    margin-top:112px;background:var(--navy);color:var(--cream);
+    padding:56px 0 40px;
+  }
+  .foot-note{max-width:38ch;color:#B9C8D6;margin:0 0 28px}
+  .links{display:flex;flex-wrap:wrap;gap:10px 28px;margin:0 0 36px;padding:0;list-style:none}
+  .links a{
+    text-decoration:none;border-bottom:1px solid rgba(253,246,233,.3);
+    padding-bottom:2px;
+  }
+  .links a:hover{border-bottom-color:var(--amber);color:var(--amber)}
+  .links a:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+  .copy{color:#7B8FA3;font-size:.86rem;margin:0}
+
+  @media (max-width:560px){
+    .wrap{padding:0 18px}
+    main{padding-top:84px}
+    .grid{gap:20px;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+    .card::before{border-width:0 34px 34px 0}
+    .card::after{border-width:34px 34px 0 0}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition-duration:.01ms!important}
+  }
+  :root:not([data-theme="light"]){}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <img class="mark" id="logo" alt="" src="">
+    <span class="brand" id="brandName"></span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1 id="heroHeadline"></h1>
+    <p id="heroSubtext"></p>
+  </div>
+  <div class="seam">
+    <div class="wrap">
+      <div class="search">
+        <label for="q" class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search stickers</label>
+        <input id="q" type="search" autocomplete="off">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="wrap">
+    <p class="count" id="count"></p>
+    <ul class="grid" id="grid"></ul>
+    <div class="empty" id="empty" hidden></div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="foot-note" id="footerNote"></p>
+    <ul class="links" id="links"></ul>
+    <p class="copy" id="copyright"></p>
+  </div>
+</footer>
+
+<script>
+/* Fallback content — used only if the JSON files can't be loaded.
+   On your live site the files in /content are what the page reads. */
+const FALLBACK_SITE = {
+  brandName:"Paper Peels",
+  logo:"/media/logo.png",
+  heroHeadline:"Stickers made to be peeled, not scrolled past.",
+  heroSubtext:"A small library of hand-drawn stickers. Pick one, download the print file, peel it later.",
+  searchPlaceholder:"Search stickers",
+  downloadLabel:"Download",
+  emptyStateText:"Nothing matches that. Try a shorter word.",
+  footerNote:"New stickers land every few weeks. Best place to catch them is Instagram.",
+  instagramUrl:"https://instagram.com/paperpeels", instagramLabel:"Instagram",
+  pinterestUrl:"https://pinterest.com/paperpeels", pinterestLabel:"Pinterest",
+  email:"hello@paperpeels.com", emailLabel:"Email",
+  copyright:"© 2026 Paper Peels"
+};
+const FALLBACK_STICKERS = [
+  {title:"Little House", preview:"", downloadUrl:"#", fileType:"PDF", featured:true},
+  {title:"Daisy Cluster", preview:"", downloadUrl:"#", fileType:"PNG"},
+  {title:"Folded Note", preview:"", downloadUrl:"#", fileType:"PDF"},
+  {title:"Window Light", preview:"", downloadUrl:"#", fileType:"JPG"},
+  {title:"Kitchen Window", preview:"", downloadUrl:"#", fileType:"PNG"},
+  {title:"Garden Path", preview:"", downloadUrl:"#", fileType:"JPG"}
+];
+
+let SITE = FALLBACK_SITE, STICKERS = FALLBACK_STICKERS;
+
+async function load(path, fallback){
+  try{
+    const r = await fetch(path, {cache:"no-store"});
+    if(!r.ok) throw 0;
+    return await r.json();
+  }catch(e){ return fallback; }
+}
+
+const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val || ""; };
+
+function renderSite(){
+  document.title = SITE.brandName || "Paper Peels";
+  set("brandName", SITE.brandName);
+  set("heroHeadline", SITE.heroHeadline);
+  set("heroSubtext", SITE.heroSubtext);
+  set("footerNote", SITE.footerNote);
+  set("copyright", SITE.copyright);
+
+  const logo = document.getElementById("logo");
+  if(SITE.logo){ logo.src = SITE.logo; logo.alt = SITE.brandName || ""; }
+  else { logo.remove(); }
+
+  document.getElementById("q").placeholder = SITE.searchPlaceholder || "Search";
+
+  const links = document.getElementById("links");
+  links.innerHTML = "";
+  const add = (label, href) => {
+    if(!href) return;
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.textContent = label; a.href = href;
+    if(href.startsWith("http")){ a.target = "_blank"; a.rel = "noopener"; }
+    li.appendChild(a); links.appendChild(li);
+  };
+  add(SITE.instagramLabel || "Instagram", SITE.instagramUrl);
+  add(SITE.pinterestLabel || "Pinterest", SITE.pinterestUrl);
+  add(SITE.emailLabel || "Email", SITE.email ? "mailto:" + SITE.email : "");
+}
+
+function cardFor(s){
+  const li = document.createElement("li");
+  li.className = "card";
+
+  const thumb = document.createElement("div");
+  thumb.className = "thumb";
+  if(s.preview){
+    const img = document.createElement("img");
+    img.src = s.preview; img.alt = s.title || ""; img.loading = "lazy";
+    img.onerror = () => { thumb.innerHTML = '<div class="ph">Preview</div>'; };
+    thumb.appendChild(img);
+  } else {
+    thumb.innerHTML = '<div class="ph">Preview</div>';
+  }
+
+  const meta = document.createElement("div");
+  meta.className = "meta";
+
+  const h = document.createElement("h2");
+  h.className = "title"; h.textContent = s.title || "Untitled";
+  meta.appendChild(h);
+
+  if(s.fileType){
+    const k = document.createElement("p");
+    k.className = "kind"; k.textContent = s.fileType + " file";
+    meta.appendChild(k);
+  }
+
+  const a = document.createElement("a");
+  a.className = "dl";
+  a.href = s.downloadUrl || "#";
+  a.setAttribute("download", "");
+  a.rel = "noopener";
+  a.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>';
+  a.append(document.createTextNode(SITE.downloadLabel || "Download"));
+  a.setAttribute("aria-label", (SITE.downloadLabel || "Download") + " " + (s.title || ""));
+  meta.appendChild(a);
+
+  li.append(thumb, meta);
+  return li;
+}
+
+function render(query){
+  const q = (query || "").trim().toLowerCase();
+  const list = STICKERS
+    .filter(s => !q || (s.title || "").toLowerCase().includes(q))
+    .sort((a,b) => (b.featured === true) - (a.featured === true));
+
+  const grid = document.getElementById("grid");
+  const empty = document.getElementById("empty");
+  grid.innerHTML = "";
+  list.forEach(s => grid.appendChild(cardFor(s)));
+
+  empty.hidden = list.length > 0;
+  empty.textContent = SITE.emptyStateText || "";
+
+  const n = list.length;
+  set("count", n === 1 ? "1 sticker" : n + " stickers");
+}
+
+(async function init(){
+  const [site, stickers] = await Promise.all([
+    load("content/site.json", FALLBACK_SITE),
+    load("content/stickers.json", FALLBACK_STICKERS)
+  ]);
+  SITE = site; STICKERS = Array.isArray(stickers) ? stickers : FALLBACK_STICKERS;
+  renderSite();
+  render("");
+  document.getElementById("q").addEventListener("input", e => render(e.target.value));
+})();
+</script>
+</body>
+</html>
