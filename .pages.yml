@@ -1,0 +1,85 @@
+media:
+  input: media
+  output: /media
+
+content:
+  - name: site
+    label: Site settings
+    type: file
+    path: content/site.json
+    fields:
+      - name: brandName
+        label: Brand name
+        type: string
+        description: Shown in the header next to the logo.
+      - name: logo
+        label: Logo
+        type: image
+      - name: heroHeadline
+        label: Hero headline
+        type: string
+      - name: heroSubtext
+        label: Hero subtext
+        type: text
+        description: One or two short lines under the headline.
+      - name: searchPlaceholder
+        label: Search box placeholder
+        type: string
+      - name: downloadLabel
+        label: Download button text
+        type: string
+      - name: emptyStateText
+        label: Text shown when a search finds nothing
+        type: string
+      - name: footerNote
+        label: Footer note
+        type: text
+      - name: instagramUrl
+        label: Instagram link
+        type: string
+      - name: instagramLabel
+        label: Instagram label
+        type: string
+      - name: pinterestUrl
+        label: Pinterest link
+        type: string
+      - name: pinterestLabel
+        label: Pinterest label
+        type: string
+      - name: email
+        label: Email address
+        type: string
+      - name: emailLabel
+        label: Email label
+        type: string
+      - name: copyright
+        label: Copyright line
+        type: string
+
+  - name: stickers
+    label: Stickers
+    type: file
+    path: content/stickers.json
+    list: true
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: preview
+        label: Preview image (low resolution)
+        type: image
+        description: Small, compressed image shown on the site. Keep it under 200 KB.
+      - name: downloadUrl
+        label: Cloudinary download link
+        type: string
+        description: >-
+          Paste the Cloudinary URL. For PDFs and raw files add /fl_attachment/
+          after /upload/ so it downloads instead of opening.
+      - name: fileType
+        label: File type
+        type: select
+        options:
+          values: [PNG, JPG, PDF, SVG, Video]
+      - name: featured
+        label: Show first
+        type: boolean
