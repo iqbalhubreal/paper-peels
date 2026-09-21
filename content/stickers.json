@@ -1,17 +1,34 @@
-{
-  "brandName": "Paper Peels",
-  "logo": "/media/logo.jpg",
-  "heroHeadline": "Stickers made to be peeled, not scrolled past.",
-  "heroSubtext": "A small library of hand-drawn stickers. Pick one, download the print file, peel it later.",
-  "searchPlaceholder": "Search stickers",
-  "downloadLabel": "Download",
-  "emptyStateText": "Nothing matches that. Try a shorter word.",
-  "footerNote": "New stickers land every few weeks. Best place to catch them is Instagram.",
-  "instagramUrl": "https://instagram.com/paperpeels",
-  "instagramLabel": "Instagram",
-  "pinterestUrl": "https://pinterest.com/paperpeels",
-  "pinterestLabel": "Pinterest",
-  "email": "hello@paperpeels.com",
-  "emailLabel": "Email",
-  "copyright": "© 2026 Paper Peels"
-}
+[
+  {
+    "title": "Little House",
+    "preview": "",
+    "downloadUrl": "https://res.cloudinary.com/your-cloud/raw/upload/fl_attachment/little-house.pdf",
+    "fileType": "PDF",
+    "downloadLabel": "Download PDF",
+    "featured": true
+  },
+  {
+    "title": "Daisy Cluster",
+    "preview": "",
+    "downloadUrl": "https://res.cloudinary.com/your-cloud/image/upload/fl_attachment/daisy-cluster.png",
+    "fileType": "PNG",
+    "downloadLabel": "",
+    "featured": false
+  },
+  {
+    "title": "Folded Note",
+    "preview": "",
+    "downloadUrl": "https://res.cloudinary.com/your-cloud/raw/upload/fl_attachment/folded-note.pdf",
+    "fileType": "PDF",
+    "downloadLabel": "",
+    "featured": false
+  },
+  {
+    "title": "Window Light",
+    "preview": "",
+    "downloadUrl": "https://res.cloudinary.com/your-cloud/image/upload/fl_attachment/window-light.jpg",
+    "fileType": "JPG",
+    "downloadLabel": "",
+    "featured": false
+  }
+]
