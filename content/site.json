@@ -7,11 +7,9 @@
   "downloadLabel": "Download",
   "emptyStateText": "Nothing matches that. Try a shorter word.",
   "footerNote": "New stickers land every few weeks. Best place to catch them is Instagram.",
-  "instagramUrl": "https://instagram.com/paperpeels",
-  "instagramLabel": "Instagram",
-  "pinterestUrl": "https://pinterest.com/paperpeels",
-  "pinterestLabel": "Pinterest",
-  "email": "bananabytee@gmail.com",
-  "emailLabel": "Email",
+  "links": [
+    { "label": "Instagram", "url": "https://instagram.com/paperpeels" },
+    { "label": "Pinterest", "url": "https://pinterest.com/paperpeels" }
+  ],
   "copyright": "© 2026 Paper Peels"
 }
