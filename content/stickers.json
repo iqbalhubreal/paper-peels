@@ -1,26 +1,8 @@
 [
   {
-    "title": "Little House",
-    "downloadUrl": "https://res.cloudinary.com/your-cloud/raw/upload/fl_attachment/little-house.pdf",
-    "fileType": "PNG",
-    "featured": true
-  },
-  {
-    "title": "Daisy Cluster",
-    "downloadUrl": "https://res.cloudinary.com/your-cloud/image/upload/fl_attachment/daisy-cluster.png",
-    "fileType": "PNG",
-    "featured": false
-  },
-  {
-    "title": "Folded Note",
-    "downloadUrl": "https://res.cloudinary.com/your-cloud/raw/upload/fl_attachment/folded-note.pdf",
-    "fileType": "PDF",
-    "featured": false
-  },
-  {
-    "title": "Window Light",
-    "downloadUrl": "https://res.cloudinary.com/your-cloud/image/upload/fl_attachment/window-light.jpg",
+    "title": "Study Sprint",
+    "downloadUrl": "https://res.cloudinary.com/aldtntdc/image/upload/v1789985684/1000135306_q23ywh.jpg",
     "fileType": "JPG",
-    "featured": false
+    "featured": true
   }
 ]
