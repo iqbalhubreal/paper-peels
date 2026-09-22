@@ -38,11 +38,15 @@
   .masthead .wrap{display:flex;align-items:center;gap:14px;padding-top:20px;padding-bottom:20px}
   .toolkit-btn{
     margin-left:auto;display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    border:1px solid rgba(253,246,233,.22);background:rgba(253,246,233,.08);
-    color:var(--cream);font:500 .92rem/1 inherit;padding:10px 14px;border-radius:9px;
-    cursor:pointer;transition:background .18s ease,border-color .18s ease,transform .18s ease;
+    border:1px solid var(--amber);background:var(--amber);
+    color:var(--navy);font:700 .92rem/1 inherit;padding:10px 15px;border-radius:9px;
+    cursor:pointer;box-shadow:0 5px 16px rgba(240,168,48,.28);
+    transition:background .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;
   }
-  .toolkit-btn:hover{background:rgba(253,246,233,.15);border-color:rgba(253,246,233,.38);transform:translateY(-1px)}
+  .toolkit-btn:hover{
+    background:#F6B84A;border-color:#F6B84A;transform:translateY(-1px);
+    box-shadow:0 7px 20px rgba(240,168,48,.36);
+  }
   .toolkit-btn:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
   .toolkit-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.9}
 
@@ -198,7 +202,7 @@
     .dl svg{width:12px;height:12px}
     .card-title{font-size:.88rem}
     .card-kind{font-size:.72rem}
-    .toolkit-btn{padding:9px 11px;font-size:.84rem}
+    .toolkit-btn{padding:9px 12px;font-size:.84rem}
     .toolkit-btn svg{width:15px;height:15px}
     .toolkit-panel{height:calc(100vh - 28px);border-radius:12px}
   }
@@ -281,7 +285,8 @@ const FALLBACK_SITE = {
   footerNote: "New stickers land every few weeks. Best place to catch them is Instagram.",
   links: [
     { label: "Instagram", url: "https://instagram.com/paperpeels" },
-    { label: "Pinterest", url: "https://pinterest.com/paperpeels" }
+    { label: "Pinterest", url: "https://pinterest.com/paperpeels" },
+    { label: "Sudoku-lib", url: "https://sudoku-player.lovdoku.shop/" }
   ],
   copyright: "© 2026 Paper Peels"
 };
@@ -329,6 +334,21 @@ function renderLinks() {
     li.appendChild(a);
     ul.appendChild(li);
   });
+
+  const hasSudokuLib = links.some(item =>
+    String(item?.url || "").trim() === "https://sudoku-player.lovdoku.shop/"
+  );
+
+  if (!hasSudokuLib) {
+    const li = document.createElement("li");
+    const a = document.createElement("a");
+    a.textContent = "Sudoku-lib";
+    a.href = "https://sudoku-player.lovdoku.shop/";
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    li.appendChild(a);
+    ul.appendChild(li);
+  }
 }
 
 function set(id, value) {
