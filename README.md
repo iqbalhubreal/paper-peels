@@ -5,7 +5,7 @@
 ```
 index.html              the website
 .pages.yml              Pages CMS config
-content/site.json       all site text, logo, footer links
+content/site.json       all site text, logo, and footer links
 content/stickers.json   the sticker list
 media/                  logo + low-res preview images
 ```
@@ -38,6 +38,10 @@ Preview images are the only thing the site loads, so keep them light — around 
 
 ## What's editable in the CMS
 
-Every visible word, image, and link: brand name, logo, hero headline and subtext, the search placeholder, the download button text, the "no results" message, each sticker's title and preview and link, the footer note, Instagram, Pinterest, email, and the copyright line.
+Every visible word, image, and link: brand name, logo, hero headline and subtext, the search placeholder, the download button text, the "no results" message, each sticker's title and preview and link, the footer note, footer links, and the copyright line.
 
 Tick **Show first** on a sticker to pin it to the top of the grid.
+
+## Notes
+
+The public site has no client-side CMS/editor controls. Edit content through Pages CMS, which writes to the JSON files in the repository.
