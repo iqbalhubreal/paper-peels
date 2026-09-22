@@ -1,0 +1,113 @@
+media:
+  input: media
+  output: /media
+
+content:
+  - name: site
+    label: Site settings
+    type: file
+    path: content/site.json
+    format: json
+    fields:
+      - name: brandName
+        label: Brand name
+        type: string
+        description: Shown in the header next to the logo.
+
+      - name: logo
+        label: Logo image
+        type: image
+        description: Swap the logo here. Shown at 40×40 px in the header.
+
+      - name: heroHeadline
+        label: Hero headline
+        type: string
+
+      - name: heroSubtext
+        label: Hero subtext
+        type: text
+        description: One or two short lines shown under the headline.
+
+      - name: searchPlaceholder
+        label: Search bar placeholder text
+        type: string
+
+      - name: downloadLabel
+        label: Default download button text
+        type: string
+        description: Used on every sticker that doesn't have its own custom download label.
+
+      - name: emptyStateText
+        label: No-results message
+        type: string
+        description: Shown when a search finds nothing.
+
+      - name: footerNote
+        label: Footer note
+        type: text
+
+      - name: links
+        label: Footer links
+        type: object
+        list:
+          collapsible:
+            collapsed: false
+            summary: "{label}"
+        fields:
+          - name: label
+            label: Link text
+            type: string
+          - name: url
+            label: URL
+            type: string
+            description: Use an https://, http://, mailto:, relative (/...), or # URL.
+
+      - name: copyright
+        label: Copyright line
+        type: string
+
+  - name: stickers
+    label: Stickers
+    type: file
+    path: content/stickers.json
+    format: json
+    list: true
+    fields:
+      - name: title
+        label: Title
+        type: string
+        description: Shown on the card and used for search.
+
+      - name: preview
+        label: Preview image
+        type: image
+        description: >-
+          Low-resolution image shown on the site. Keep under 200 KB —
+          it's what every visitor loads. The actual high-quality file
+          lives on Cloudinary and is only fetched on download.
+
+      - name: downloadUrl
+        label: Cloudinary download URL
+        type: string
+        description: >-
+          Paste the Cloudinary URL here. For images, PDFs, and raw files
+          insert fl_attachment/ right after /upload/ so it downloads instead
+          of opening, e.g. .../upload/fl_attachment/my-sticker.pdf
+
+      - name: fileType
+        label: File type
+        type: select
+        options:
+          values: [PNG, JPG, PDF, SVG, Video]
+
+      - name: downloadLabel
+        label: Download button text (optional)
+        type: string
+        description: >-
+          Leave blank to use the default from Site Settings.
+          Set a custom label like "Download PDF" or "Get the sheet" per sticker.
+
+      - name: featured
+        label: Show this sticker first
+        type: boolean
+        description: Pin to the top of the list regardless of search order.
