@@ -3,7 +3,12 @@
     "title": "Study Sprint (16 Stickers)",
     "preview": "/media/Gemini_Generated_Image_ryd194ryd194ryd1-compressed(1).jpg",
     "downloadUrl": "https://res.cloudinary.com/aldtntdc/image/upload/fl_attachment/v1789985684/1000135306_q23ywh.jpg",
-    "fileType": "JPG",
+    "fileType": "PDF",
+    "featured": true
+  },
+  {
+    "title": "Coding Aesthetic",
+    "preview": "/media/1000135443-compressed.jpg",
     "featured": true
   }
 ]
