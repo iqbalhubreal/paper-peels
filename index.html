@@ -262,7 +262,7 @@
       <ul class="stickerlist" id="stickerlist"></ul>
     </div>
     <div class="load-more-wrap" id="loadMoreWrap" hidden>
-      <button class="load-more" id="loadMore" type="button">Load more</button>
+      <button class="load-more" id="loadMore" type="button">See more</button>
     </div>
     <div class="empty" id="empty" hidden></div>
   </div>
@@ -473,7 +473,7 @@ function render(query) {
   empty.hidden = items.length > 0;
   empty.textContent = SITE.emptyStateText || "";
   loadMoreWrap.hidden = visibleItems.length >= items.length;
-  loadMore.textContent = "Load more";
+  loadMore.textContent = "See more";
   set("count", items.length === visibleItems.length
     ? (items.length === 1 ? "1 item" : items.length + " items")
     : `Showing ${visibleItems.length} of ${items.length} items`);
