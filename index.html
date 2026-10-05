@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no" class="notranslate">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="google" content="notranslate">
 <title>Paper Peels</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -118,6 +119,15 @@
   main{padding:92px 0 72px}
   .count{color:var(--ink-mute);font-size:.9rem;margin:0 0 16px;letter-spacing:.01em}
   .stickerlist{display:flex;flex-direction:column;gap:8px;list-style:none;margin:0;padding:0}
+  .stickerlist-container{min-height:0}
+  .load-more-wrap{display:flex;justify-content:center;margin-top:24px}
+  .load-more{
+    border:1px solid var(--navy);background:transparent;color:var(--navy);
+    font:500 .92rem/1 inherit;padding:11px 20px;border-radius:7px;cursor:pointer;
+    transition:background .18s ease,color .18s ease,transform .18s ease;
+  }
+  .load-more:hover{background:var(--navy);color:var(--cream);transform:translateY(-1px)}
+  .load-more:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 
   /* ── horizontal card ── */
   .card{
@@ -248,7 +258,12 @@
 <main>
   <div class="wrap">
     <p class="count" id="count"></p>
-    <ul class="stickerlist" id="stickerlist"></ul>
+    <div class="stickerlist-container">
+      <ul class="stickerlist" id="stickerlist"></ul>
+    </div>
+    <div class="load-more-wrap" id="loadMoreWrap" hidden>
+      <button class="load-more" id="loadMore" type="button">Load more</button>
+    </div>
     <div class="empty" id="empty" hidden></div>
   </div>
 </main>
@@ -303,6 +318,8 @@ const FALLBACK_STICKERS = [
 
 let SITE = FALLBACK_SITE;
 let STICKERS = FALLBACK_STICKERS;
+const PAGE_SIZE = 15;
+let visibleCount = PAGE_SIZE;
 
 function safeLink(url) {
   const u = String(url || "").trim();
@@ -447,12 +464,19 @@ function render(query) {
 
   const list = document.getElementById("stickerlist");
   const empty = document.getElementById("empty");
+  const loadMoreWrap = document.getElementById("loadMoreWrap");
+  const loadMore = document.getElementById("loadMore");
+  const visibleItems = items.slice(0, visibleCount);
   list.innerHTML = "";
-  items.forEach(sticker => list.appendChild(cardFor(sticker)));
+  visibleItems.forEach(sticker => list.appendChild(cardFor(sticker)));
 
   empty.hidden = items.length > 0;
   empty.textContent = SITE.emptyStateText || "";
-  set("count", items.length === 1 ? "1 item" : items.length + " items");
+  loadMoreWrap.hidden = visibleItems.length >= items.length;
+  loadMore.textContent = "Load more";
+  set("count", items.length === visibleItems.length
+    ? (items.length === 1 ? "1 item" : items.length + " items")
+    : `Showing ${visibleItems.length} of ${items.length} items`);
 }
 
 async function load(path, fallback) {
@@ -476,7 +500,14 @@ async function load(path, fallback) {
 
   renderSite();
   render("");
-  document.getElementById("q").addEventListener("input", event => render(event.target.value));
+  document.getElementById("q").addEventListener("input", event => {
+    visibleCount = PAGE_SIZE;
+    render(event.target.value);
+  });
+  document.getElementById("loadMore").addEventListener("click", () => {
+    visibleCount += PAGE_SIZE;
+    render(document.getElementById("q").value);
+  });
 
   const toolkitBtn = document.getElementById("toolkitBtn");
   const toolkitOverlay = document.getElementById("toolkitOverlay");
