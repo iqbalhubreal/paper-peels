@@ -77,9 +77,15 @@
     "featured": true
   },
   {
-    "title": "Made with Care",
+    "title": "Made with Care (8 stickers | 6 × 9 in)",
     "preview": "/media/1000136678-compressed.jpg",
     "downloadUrl": "https://res.cloudinary.com/aldtntdc/raw/upload/v1791339120/yybls80dyxrw1xtlgeof.pdf",
+    "fileType": "PDF",
+    "featured": true
+  },
+  {
+    "title": "Gothic 02 (4 stickers | 6 × 9 in)",
+    "preview": "/media/1000136682-compressed.jpg",
     "fileType": "PDF",
     "featured": true
   }
