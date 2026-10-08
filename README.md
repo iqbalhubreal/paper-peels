@@ -45,3 +45,8 @@ Tick **Show first** on a sticker to pin it to the top of the grid.
 ## Notes
 
 The public site has no client-side CMS/editor controls. Edit content through Pages CMS, which writes to the JSON files in the repository.
+
+
+## Test access gate
+
+The site now shows a password gate before loading the preview. The verification hash lives in `security/access.js` rather than storing the password in the HTML. Because this is a static client-side site, the gate is only suitable for testing and is not real security; use server-side authentication for sensitive content.

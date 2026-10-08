@@ -224,10 +224,44 @@
     .link-row{grid-template-columns:1fr 1.4fr 34px}
     .col-heads{grid-template-columns:1fr 1.4fr 34px}
   }
+
+  /* ── access gate ── */
+  body:not(.access-granted) > :not(#accessGate){visibility:hidden}
+  .access-gate{
+    position:fixed;inset:0;z-index:2000;display:grid;place-items:center;
+    padding:24px;background:var(--navy);color:var(--cream);
+  }
+  .access-gate[hidden]{display:none}
+  .access-card{
+    width:min(420px,100%);padding:34px 30px;background:var(--cream);color:var(--ink);
+    border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.28);text-align:center;
+  }
+  .access-card h1{font-family:"Bricolage Grotesque",sans-serif;font-size:1.8rem;line-height:1.1;margin:0 0 10px}
+  .access-card p{margin:0 0 22px;color:var(--ink-mute)}
+  .access-form{display:flex;gap:10px;align-items:stretch}
+  .access-form input{min-width:0;flex:1;border:1px solid var(--line);border-radius:8px;padding:12px 13px;font:inherit;color:var(--ink);background:#fff}
+  .access-form input:focus{outline:2px solid var(--amber);outline-offset:2px}
+  .access-form button{border:0;border-radius:8px;background:var(--amber);color:var(--navy);font:700 .95rem/1 inherit;padding:0 18px;cursor:pointer}
+  .access-form button:hover{background:#F6B84A}
+  .access-form button:focus-visible{outline:2px solid var(--navy);outline-offset:3px}
+  .access-error{min-height:1.5em;margin:12px 0 0!important;color:#B64B4B!important;font-size:.9rem}
   @media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
+
+<div class="access-gate" id="accessGate">
+  <div class="access-card" role="dialog" aria-modal="true" aria-labelledby="accessTitle">
+    <h1 id="accessTitle">Private preview</h1>
+    <p>Enter the password to open Paper Peels.</p>
+    <form class="access-form" id="accessForm">
+      <label for="accessPassword" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Password</label>
+      <input id="accessPassword" type="password" autocomplete="current-password" required autofocus>
+      <button type="submit">Enter</button>
+    </form>
+    <p class="access-error" id="accessError" role="alert" aria-live="polite"></p>
+  </div>
+</div>
 
 <header class="masthead">
   <div class="wrap">
@@ -289,6 +323,42 @@
   </div>
 </footer>
 
+<script src="security/access.js"></script>
+<script>
+(function protectSite() {
+  const gate = document.getElementById("accessGate");
+  const form = document.getElementById("accessForm");
+  const input = document.getElementById("accessPassword");
+  const error = document.getElementById("accessError");
+  const unlockedKey = "paper-peels-unlocked";
+
+  function grantAccess() {
+    document.body.classList.add("access-granted");
+    gate.hidden = true;
+  }
+
+  if (sessionStorage.getItem(unlockedKey) === "true") {
+    grantAccess();
+    return;
+  }
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+    error.textContent = "";
+    const encoded = new TextEncoder().encode(input.value);
+    const buffer = await crypto.subtle.digest("SHA-256", encoded);
+    const hash = Array.from(new Uint8Array(buffer), byte => byte.toString(16).padStart(2, "0")).join("");
+
+    if (hash === window.PAPER_PEELS_ACCESS_HASH) {
+      sessionStorage.setItem(unlockedKey, "true");
+      grantAccess();
+    } else {
+      error.textContent = "That password is not correct.";
+      input.select();
+    }
+  });
+})();
+</script>
 <script>
 const FALLBACK_SITE = {
   brandName: "Paper Peels",
