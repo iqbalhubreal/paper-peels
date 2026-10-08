@@ -255,6 +255,13 @@
   .access-form button:hover{background:#F6B84A}
   .access-form button:focus-visible{outline:2px solid var(--navy);outline-offset:3px}
   .access-error{min-height:1.5em;margin:12px 0 0!important;color:#B64B4B!important;font-size:.9rem}
+  .access-status{margin:18px 0 10px!important;color:var(--ink-mute)!important;font-size:.9rem}
+  .access-status[hidden],.access-progress[hidden]{display:none}
+  .access-progress{height:8px;overflow:hidden;border-radius:999px;background:rgba(30,45,61,.12)}
+  .access-progress-fill{width:0;height:100%;border-radius:inherit;background:var(--amber)}
+  .access-card.is-loading .access-progress-fill{animation:access-loading 3s linear forwards}
+  .access-card.is-loading .access-form{pointer-events:none;opacity:.65}
+  @keyframes access-loading{from{width:0}to{width:100%}}
   @media(max-width:480px){
     .access-gate{padding-top:max(16px,env(safe-area-inset-top));padding-bottom:max(16px,env(safe-area-inset-bottom))}
     .access-card{padding:28px 20px}
@@ -277,6 +284,10 @@
       <button type="submit">Enter</button>
     </form>
     <p class="access-error" id="accessError" role="alert" aria-live="polite"></p>
+    <p class="access-status" id="accessStatus" role="status" hidden>Opening Paper Peels…</p>
+    <div class="access-progress" id="accessProgress" role="progressbar" aria-label="Opening Paper Peels" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" hidden>
+      <div class="access-progress-fill"></div>
+    </div>
   </div>
 </div>
 
@@ -347,7 +358,12 @@
   const form = document.getElementById("accessForm");
   const input = document.getElementById("accessPassword");
   const error = document.getElementById("accessError");
+  const status = document.getElementById("accessStatus");
+  const progress = document.getElementById("accessProgress");
+  const card = gate.querySelector(".access-card");
+  const submitButton = form.querySelector("button");
   const unlockedKey = "paper-peels-unlocked";
+  let unlocking = false;
 
   function grantAccess() {
     try { localStorage.setItem(unlockedKey, "true"); } catch (error) {}
@@ -365,13 +381,24 @@
 
   form.addEventListener("submit", async event => {
     event.preventDefault();
+    if (unlocking) return;
     error.textContent = "";
     const encoded = new TextEncoder().encode(input.value);
     const buffer = await crypto.subtle.digest("SHA-256", encoded);
     const hash = Array.from(new Uint8Array(buffer), byte => byte.toString(16).padStart(2, "0")).join("");
 
     if (hash === window.PAPER_PEELS_ACCESS_HASH) {
-      grantAccess();
+      unlocking = true;
+      input.disabled = true;
+      submitButton.disabled = true;
+      submitButton.textContent = "Opening…";
+      status.hidden = false;
+      progress.hidden = false;
+      card.classList.add("is-loading");
+      window.setTimeout(() => {
+        progress.setAttribute("aria-valuenow", "100");
+        grantAccess();
+      }, 3000);
     } else {
       error.textContent = "That password is not correct.";
       input.select();
